@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->integer('school_id');
-            $table->string('name');
+            $table->foreignId('parent_group_id')->constrained();
+            $table->foreignId('class_id')->constrained();
+            $table->string("first_name");
+            $table->string("last_name");
+            $table->string("middle_name")->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role',['teacher','principle']);
-            $table->string('home_address')->nullable();
-            $table->string('phone')->nullable();
-            $table->rememberToken();
+            $table->string('address');
+            $table->string('district');
+            $table->date('dob')->nullable();
+            $table->enum('sex',['male','female','other']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('students');
     }
 };
